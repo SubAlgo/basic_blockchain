@@ -16,3 +16,16 @@ after set contracts and hardhat.config.js
 > npx hardhat run scripts/subalgo.js --network localhost
 
 import metamask account by Private Key
+
+
+# Test Ropsten 
+https://faucet.ropsten.be/
+infura.io
+https://ropsten.etherscan.io/
+
+TestRopstenAccount
+f8684e0675c0f9f0f05c4098bdfd1220216f6596b8b3344d333bc0ce01b4e07d
+
+0x591c133C38238407807F15E8d2984885eb07Ac57
+
+etherscan ropsten
