@@ -8,8 +8,7 @@ const subAlgoAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
 function App() {
   const [name, setNameValue] = useState('')
-  //const [greeting, setGreetingValue] = useState()
-
+  const [lastname, setLastnameValue] = useState('')
 
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -21,9 +20,9 @@ function App() {
       console.log({ provider })
       const contract = new ethers.Contract(subAlgoAddress, Subalgo.abi, provider)
       try {
-        const data = await contract.getName()
-        //const l = await contract.getLastname()
-        //const data = n + " " + l
+        const n = await contract.getName()
+        const l = await contract.getLastname()
+        const data = n + " " + l
         console.log('data: ', data)
       } catch (err) {
         console.log("Error: ", err)
@@ -47,15 +46,41 @@ function App() {
     }
   }
 
+  async function setSubalgoLastname() {
+    if (!lastname) return
+    if (typeof window.ethereum !== 'undefined') {
+      await requestAccount();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(subAlgoAddress, Subalgo.abi, signer);
+      const transaction = await contract.setLastname(lastname);
+      await transaction.wait();
+      fetchData();
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <button onClick={fetchData}>FetchData</button>
-        <button onClick={setSubalgoName}>Set name</button>
-        <input 
-          onChange={e => setNameValue(e.target.value)} 
-          placeholder="Set name" 
-        />
+        <div>
+          <label>Set Name</label>
+          <input 
+            onChange={e => setNameValue(e.target.value)} 
+            placeholder="Set name" 
+          />
+          <button onClick={setSubalgoName}>Set name</button>
+        </div>
+
+        <div>
+          <label>Set Lastname</label>
+          <input 
+            onChange={e => setLastnameValue(e.target.value)} 
+            placeholder="Set lastname" 
+          />
+          <button onClick={setSubalgoLastname}>Set Lastname</button>
+        </div>
+        
         
 
       </header>
